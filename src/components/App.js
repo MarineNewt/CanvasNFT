@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import {BrowserRouter as Router, Routes, Route, } from "react-router-dom";
 import Web3 from 'web3';
 import NFTcon from '../contracts/canvas.json'
 import btnimg from "../images/tempicon.png"
 import bkgrd from '../images/background.png'
-import logo from '../logo.png';
+import logo from '../images/tempicon.png'
 import './App.css';
 
 class App extends Component {

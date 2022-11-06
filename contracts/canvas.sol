@@ -14,7 +14,9 @@ contract OnChainNFT is ERC721Enumerable, Ownable {
   uint256 public maxSupply = 396;
   bool public paused = false;
   address burnercontract;
+  string description = 'The Canvas';
   mapping (uint8 => uint8[3]) cell;
+  mapping (uint256 => uint256) cooldown;
 
   constructor() ERC721("OCNFT", "OCNFT") {}
 
@@ -30,33 +32,40 @@ contract OnChainNFT is ERC721Enumerable, Ownable {
     _mint(msg.sender, supply + 1);
   }
 
-  function setPixel(uint8 pixel,uint8 r,uint8 g,uint8 b) public{
+  function setPixel(uint256 tokenId_, uint8 pixel,uint8 r,uint8 g,uint8 b) public{
+    require(ownerOf(tokenId_) == msg.sender);
+    require(block.number > cooldown[tokenId_]);
     cell[pixel][0] = r;
     cell[pixel][1] = g;
     cell[pixel][2] = b;
+    cooldown[tokenId_] = block.number + 600;
   }
 
-    function rect() private view returns(string memory){
-        string memory long = '<rect/>';
-        bytes memory temp;
-        uint256 fxc = 0;
-        uint256 fx = 0;
-        uint256 fy;
-        string memory format = ",";
-        for (uint8 i = 1; i <= 196; i++){
-            fxc++;
-            if(fxc == 15){
-              fx = 0;
-              fxc = 1;
-            }
-            uint256 fi = i;
-            fy = (((fi-1)/14) * 32);
-            temp = string.concat('<rect style=\"fill: rgb(', bytes(Strings.toString(cell[i][0])) , ',' , bytes(Strings.toString(cell[i][1])), ',' , bytes(Strings.toString(cell[i][2])) , ')" x="',bytes(Strings.toString(fx)),'" y="',bytes(Strings.toString(fy)),'" width="33" height="33"/>');
-            long = string(string.concat(bytes(long), bytes(format), temp));
-            fx = fx + 32;
-        }
-        return long;
-    }
+  function checkPixel(uint8 pixel_) public view returns(uint8, uint8, uint8){
+    return (cell[pixel_][0], cell[pixel_][1], cell[pixel_][2]);
+  }
+
+  function rect() private view returns(string memory){
+      string memory long = '<rect/>';
+      bytes memory temp;
+      uint256 fxc = 0;
+      uint256 fx = 0;
+      uint256 fy;
+      string memory format = ",";
+      for (uint8 i = 1; i <= 196; i++){
+          fxc++;
+          if(fxc == 15){
+            fx = 0;
+            fxc = 1;
+          }
+          uint256 fi = i;
+          fy = (((fi-1)/14) * 32);
+          temp = string.concat('<rect style=\"fill: rgb(', bytes(Strings.toString(cell[i][0])) , ',' , bytes(Strings.toString(cell[i][1])), ',' , bytes(Strings.toString(cell[i][2])) , ')" x="',bytes(Strings.toString(fx)),'" y="',bytes(Strings.toString(fy)),'" width="33" height="33"/>');
+          long = string(string.concat(bytes(long), bytes(format), temp));
+          fx = fx + 32;
+      }
+      return long;
+  }
 
 //Can change to view and add variation data. 
     function buildImage() public view returns(string memory) {
@@ -96,7 +105,7 @@ contract OnChainNFT is ERC721Enumerable, Ownable {
           '{"name":"',
           "OC NFT",
           '", "description":"',
-          "This NFT exists on chain",
+          description,
           '", "image":"',
           'data:image/svg+xml;base64,',
           buildImage(),
@@ -118,6 +127,10 @@ contract OnChainNFT is ERC721Enumerable, Ownable {
 
   function setBurner(address burner) external onlyOwner {
     burnercontract = burner;
+  }
+
+  function setDescription(string memory des_) external onlyOwner {
+    description = des_;
   }
  
   function withdraw() public payable onlyOwner {
