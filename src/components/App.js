@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Routes, Route, } from "react-router-dom";
+import PixelPage from './PixelPage.js';
+import NavBar from './NavBar.js';
 import Web3 from 'web3';
 import NFTcon from '../contracts/canvas.json'
 import btnimg from "../images/tempicon.png"
 import bkgrd from '../images/background.png'
-import logo from '../images/tempicon.png'
 import './App.css';
 
 class App extends Component {
@@ -54,6 +55,13 @@ class App extends Component {
     this.setState({ loading: false })
   }
 
+  mint = () => {
+    const web3 = window.web3
+    this.setState({loading: true})
+    this.state.NFTContract.methods.mint().send({ from: this.state.account, value: web3.utils.toWei('0.015') }).on('transactionHash', (hash) => {
+    this.setState({ loading: false })
+  })}
+
   constructor(props) {
     super(props)
     this.state = {
@@ -68,60 +76,42 @@ class App extends Component {
   
   render() {
     return (
+  <Router>
+    <Routes>
+      <Route path="/" element={
       <div style={{height: '100vh', margintop: '0', backgroundImage: `url( ${bkgrd} )`,
       backgroundSize: 'contain'}}>
-        <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow" style={{height: '7vh'}}>
-          <div
-            className="navbar-brand col-sm-3 col-md-2 mr-0"
-            rel="noopener noreferrer"
-          >
-            The Canvas NFT Project
-          </div>
-          <small className="navbar-brand col-sm-1 "> {this.state.account} </small>
-          <img src={logo} height="40" width="40"  alt="" />
-        </nav>
-        <br></br>
-        <div style={{left: '29vw', top: 'calc(30vh - 5vw)', position: 'absolute'}}>
-          <div id="content" className="mt-3 compbox comp-font-sizer">
+        <NavBar account = {this.state.account} />
+        <div className="container-fluid">
+        <div className="row">
+        <div className="content mr-auto ml-auto">
+          <div id="content" className="compbox comp-font-sizer" style={{marginTop: '15vh'}}>
             <h1 class="comp-head-sizer">Canvas NFT Minter</h1>
             <p>Canvases minted: {this.state.NFTContractSupply} / 396</p>
-            <p>CLICK TO MINT A CANVAS:</p>
+            <p>MINT A CANVAS:</p>
             <form onSubmit={(event) => {
-            event.preventDefault()
-            let seedtoken
-            seedtoken = this.input.value.toString()
-            this.props.fire(seedtoken)}}>
-            <input type="image" src={btnimg} alt="" style={{height: "8vw", borderRadius: "13px"}} name="saveForm" class="btTxt submit" id="saveForm" />
+              event.preventDefault()
+              this.mint()}}>
+              <input type="image" src={btnimg} alt="" style={{height: "calc(7vw + 10px)", borderRadius: "13px"}} name="saveForm" class="btTxt submit" id="saveForm" />
             </form>
-
-            <form className="mt-5" onSubmit={(event) => {
-            event.preventDefault()
-            let seedtoken
-            seedtoken = this.input.value.toString()
-            this.props.fire(seedtoken)}}>
-            <div>
-              <h2 className="float-left"  style = {{color: "white", fontSize: "2vw"}} >Enter Pixel placement information:</h2>
-              <br></br>
-              <div className='input-group'>
-              <input
-                type="text"
-                ref={(input) =>  { this.input = input }}
-                className="form-control form-control-lg"
-                placeholder="0"
-                required
-                style={{height: "3vw"}} />
-
-              <button type="submit" className="input-group-append inputbtn" >Place Pixel</button>
-  
-              </div>
-            </div>
-          </form>
-
+            <br></br><br></br>
+            <form style={{textAlign: 'center'}} action="/pixel" method="get">
+              <button className='rainbow-button'>Click to place a Pixel</button>
+            </form>
           </div>
         </div>
-      </div>
+        </div>
+        </div>
+      </div>} />
+      <Route path="/pixel" element={<Pixelroute/>}/>
+    </Routes>
+  </Router>
     );
   }
+}
+
+function Pixelroute() {
+  return <PixelPage/>
 }
 
 export default App;

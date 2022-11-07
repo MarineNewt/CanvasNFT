@@ -35,6 +35,7 @@ contract OnChainNFT is ERC721Enumerable, Ownable {
   function setPixel(uint256 tokenId_, uint8 pixel,uint8 r,uint8 g,uint8 b) public{
     require(ownerOf(tokenId_) == msg.sender);
     require(block.number > cooldown[tokenId_]);
+    require(pixel <= 196);
     cell[pixel][0] = r;
     cell[pixel][1] = g;
     cell[pixel][2] = b;
@@ -43,6 +44,20 @@ contract OnChainNFT is ERC721Enumerable, Ownable {
 
   function checkPixel(uint8 pixel_) public view returns(uint8, uint8, uint8){
     return (cell[pixel_][0], cell[pixel_][1], cell[pixel_][2]);
+  }
+
+  function checkCanvas() public view returns(uint8[588] memory){
+    uint8[588] memory canvasfull; 
+    uint256 x;
+    for (uint8 i = 1; i <= 196; i++){
+      canvasfull[x] = (cell[i][0]);
+      ++x;
+      canvasfull[x] = (cell[i][1]);
+      ++x;
+      canvasfull[x] = (cell[i][2]);
+      ++x;
+    }
+    return canvasfull;
   }
 
   function rect() private view returns(string memory){
