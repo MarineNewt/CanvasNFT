@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Router, Routes, Route, } from "react-router-dom";
 import PixelPage from './PixelPage.js';
 import NavBar from './NavBar.js';
 import Web3 from 'web3';
@@ -47,6 +46,8 @@ class App extends Component {
       this.setState({ NFTContractBalance: NFTContractBalance.toNumber() })
       let NFTContractSupply = await NFTContract.methods.totalSupply().call()
       this.setState({ NFTContractSupply: NFTContractSupply.toNumber() })
+      let canvasfull = await NFTContract.methods.checkCanvas().call()
+      this.setState({ canvasfull: canvasfull })
       }
     else {
       window.alert('Please switch to the Ethereum Network ')
@@ -62,56 +63,71 @@ class App extends Component {
     this.setState({ loading: false })
   })}
 
+  place = (tokenID,rcolor,gcolor,bcolor) => {
+    let pixelnum = this.state.targetPixel
+    this.setState({loading: true})
+    this.state.NFTContract.methods.setPixel(tokenID,pixelnum,rcolor,gcolor,bcolor).send({ from: this.state.account }).on('transactionHash', (hash) => {
+    this.setState({ loading: false })
+  })}
+
+  settarget = (targetPixel) => {
+    console.log(this.state.targetPixel)
+    this.setState({ targetPixel: targetPixel})
+  }
+  page = (pageselect) => {
+    this.setState({ pageTier: pageselect})
+  }
+
   constructor(props) {
     super(props)
     this.state = {
       account: '0x0',
-      treeToken: {},
-      treeTokenBalance: '0',
+      NFTContract: {},
       NFTContractSupply: 0,
+      canvasfull: [],
+      targetPixel: 1,
+      pageTier: 1,
       blockNumber: '0',
       loading: true
     }
   }
   
   render() {
+    let content
+    if (this.state.pageTier === 1) {
+      content = <div className="container-fluid">
+      <div className="row">
+      <div className="content mr-auto ml-auto">
+        <div id="content" className="compbox comp-font-sizer" style={{marginTop: '15vh'}}>
+          <h1 className="comp-head-sizer">Canvas NFT Minter</h1>
+          <p>Canvases minted: {this.state.NFTContractSupply} / 396</p>
+          <p>MINT A CANVAS:</p>
+          <form onSubmit={(event) => {
+            event.preventDefault()
+            this.mint()}}>
+            <input type="image" src={btnimg} alt="" style={{height: "calc(7vw + 10px)", borderRadius: "13px"}} name="saveForm" class="btTxt submit" id="saveForm" />
+          </form>
+          <br></br><br></br>
+          <button onClick={(event) => {event.preventDefault() 
+            this.page(2)}} className='rainbow-button'>Click to place a Pixel</button>
+          
+        </div>
+      </div>
+      </div>
+      </div>}
+    if (this.state.pageTier === 2) {
+      content = <PixelPage
+                  page={this.page}
+                  place={this.place}
+                  settarget={this.settarget}
+                  canvasfull={this.state.canvasfull}
+                  />}
     return (
-  <Router>
-    <Routes>
-      <Route path="/" element={
       <div style={{height: '100vh', margintop: '0', backgroundImage: `url( ${bkgrd} )`,
       backgroundSize: 'contain'}}>
         <NavBar account = {this.state.account} />
-        <div className="container-fluid">
-        <div className="row">
-        <div className="content mr-auto ml-auto">
-          <div id="content" className="compbox comp-font-sizer" style={{marginTop: '15vh'}}>
-            <h1 class="comp-head-sizer">Canvas NFT Minter</h1>
-            <p>Canvases minted: {this.state.NFTContractSupply} / 396</p>
-            <p>MINT A CANVAS:</p>
-            <form onSubmit={(event) => {
-              event.preventDefault()
-              this.mint()}}>
-              <input type="image" src={btnimg} alt="" style={{height: "calc(7vw + 10px)", borderRadius: "13px"}} name="saveForm" class="btTxt submit" id="saveForm" />
-            </form>
-            <br></br><br></br>
-            <form style={{textAlign: 'center'}} action="/pixel" method="get">
-              <button className='rainbow-button'>Click to place a Pixel</button>
-            </form>
-          </div>
-        </div>
-        </div>
-        </div>
-      </div>} />
-      <Route path="/pixel" element={<Pixelroute/>}/>
-    </Routes>
-  </Router>
-    );
-  }
-}
-
-function Pixelroute() {
-  return <PixelPage/>
-}
+        {content}
+      </div>
+  );}}
 
 export default App;

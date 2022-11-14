@@ -47,7 +47,7 @@
 .squareit {
     margin: 0;
     padding: 0;
-    border: 1px outset rgb(0, 0, 0);
+    border: 1px outset rgb(255, 255, 255);
     background-color: rgb(255, 255, 255);
     height:20px;
     width:20px;
