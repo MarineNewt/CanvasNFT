@@ -62,7 +62,7 @@ class App extends Component {
   mint = () => {
     const web3 = window.web3
     this.setState({loading: true})
-    this.state.NFTContract.methods.mint().send({ from: this.state.account, value: web3.utils.toWei('0.015') }).on('transactionHash', (hash) => {
+    this.state.NFTContract.methods.mint().send({ from: this.state.account, value: web3.utils.toWei('0.02') }).on('transactionHash', (hash) => {
     this.setState({ loading: false })
   })}
 
@@ -102,7 +102,7 @@ class App extends Component {
       <div className="row">
       <div className="content mr-auto ml-auto">
         <div id="content" className="compbox comp-font-sizer" style={{marginTop: '15vh'}}>
-          <h1 className="comp-head-sizer">Canvas NFT Minter</h1>
+          <h1 className="comp-head-sizer">Canvas On-Chain NFT</h1>
           <p>Canvases minted: {this.state.NFTContractSupply} / 396</p>
           <p>MINT A CANVAS:</p>
           <form onSubmit={(event) => {
@@ -110,6 +110,7 @@ class App extends Component {
             this.mint()}}>
             <input type="image" src={btnimg} alt="" style={{height: "calc(7vw + 10px)", borderRadius: "13px"}} name="saveForm" class="btTxt submit" id="saveForm" />
           </form>
+          <p><i>.02 ETH</i></p>
           <br></br><br></br>
           <button onClick={(event) => {event.preventDefault() 
             this.page(2)}} className='rainbow-button'>Click to place a Pixel</button>

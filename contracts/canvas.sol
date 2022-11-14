@@ -7,10 +7,10 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./Base64.sol";
 
-contract OnChainNFT is ERC721Enumerable, Ownable {
+contract TheCanvas is ERC721Enumerable, Ownable {
   using Strings for uint256;
 
-  uint256 public cost = 0.015 ether;
+  uint256 public cost = 0.02 ether;
   uint256 public maxSupply = 396;
   bool public paused = false;
   address burnercontract;
@@ -18,7 +18,7 @@ contract OnChainNFT is ERC721Enumerable, Ownable {
   mapping (uint8 => uint8[3]) cell;
   mapping (uint256 => uint256) cooldown;
 
-  constructor() ERC721("OCNFT", "OCNFT") {}
+  constructor() ERC721("TheCanvas", "CANVAS") {}
 
   // internal
 
@@ -118,9 +118,11 @@ contract OnChainNFT is ERC721Enumerable, Ownable {
     return string(abi.encodePacked(
         'data:application/json;base64,', Base64.encode(bytes(abi.encodePacked(
           '{"name":"',
-          "OC NFT",
+          "The Canvas",
           '", "description":"',
           description,
+          ".  Edition: ",
+          tokenId.toString(),
           '", "image":"',
           'data:image/svg+xml;base64,',
           buildImage(),
@@ -151,8 +153,5 @@ contract OnChainNFT is ERC721Enumerable, Ownable {
   function withdraw() public payable onlyOwner {
     require(payable(msg.sender).send(address(this).balance));
   }
-
-  function exit() external onlyOwner{
-    selfdestruct(payable(address(msg.sender)));}
 
 }
