@@ -12,6 +12,9 @@ class App extends Component {
   async componentWillMount() {
     await this.loadWeb3()
     await this.loadBlockchainData()
+    setInterval(() => {
+      this.loadBlockchainData();
+    }, 30000);
   }
 
   async loadWeb3(){
