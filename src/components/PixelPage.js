@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import NavBar from './NavBar.js';
+import PickColor from './ColorPicker.js';
 import bkgrd from '../images/background.png'
 
 
@@ -10,10 +11,11 @@ class PixelPage extends Component {
       <div style={{height: '100vh', margintop: '0', backgroundImage: `url( ${bkgrd} )`,
       backgroundSize: 'contain'}}>
         <NavBar account = {this.props.account} />
+        <div style={{position: 'absolute', top: '68px', left: 'calc(30px + .5vw)'}}><PickColor/></div>
         <div className="container-fluid">
         <div className="row">
         <div className="content mr-auto ml-auto">
-          <div id="content" className="compbox comp-font-sizer" style={{marginTop: '9vh'}}>
+          <div id="content" className="compbox comp-font-sizer" style={{marginTop: '9vh', width: 'calc(15vw + 230px)'}}>
             <div id="grid" className="mb-3">
               <div className='noroom'>
                 <button onClick={(event) => {event.preventDefault();this.props.settarget(1)}} className='squareit' style={{backgroundColor: "rgb("+this.props.canvasfull[0]+","+this.props.canvasfull[1]+","+this.props.canvasfull[2]+")"}}></button>
