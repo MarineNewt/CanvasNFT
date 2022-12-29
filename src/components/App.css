@@ -85,3 +85,25 @@
       background-position:40vw;
     }
   }
+
+.shimit {
+    animation: shimmer 2.5s infinite;
+    height: 15vw;
+    box-shadow: 0 0 10px rgb(171, 171, 171) , 0 0 20px rgb(255, 255, 255), 0 0 30px rgb(255, 255, 255);
+    }
+  
+  @keyframes shimmer {
+    0% {
+      filter: brightness(95%);
+      transform: scale(1);
+    }
+    50% {
+      filter: brightness(110%);
+      transform: scale(1.1);
+    }
+    100% {
+      filter: brightness(95%);
+      transform: scale(1);
+    }
+  }
+  

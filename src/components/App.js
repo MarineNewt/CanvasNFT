@@ -89,6 +89,7 @@ class App extends Component {
       account: '0x0',
       NFTContract: {},
       NFTContractSupply: 0,
+      NFTContractBalance: 0,
       canvasfull: [],
       targetPixel: 1,
       pageTier: 1,
@@ -110,12 +111,15 @@ class App extends Component {
           <form onSubmit={(event) => {
             event.preventDefault()
             this.mint()}}>
-            <input type="image" src={btnimg} alt="" style={{height: "calc(7vw + 10px)", borderRadius: "13px"}} name="saveForm" class="btTxt submit" id="saveForm" />
+            <input type="image" src={btnimg} alt="" style={{height: "calc(7vw + 10px)", borderRadius: "13px"}} name="saveForm" class="shimit btTxt submit" id="saveForm" />
           </form>
           <p><i>.02 ETH</i></p>
-          <br></br><br></br>
-          <button onClick={(event) => {event.preventDefault() 
-            this.page(2)}} className='rainbow-button'>Click to place a Pixel</button>
+          
+          <a style={{fontSize: '1vw'}} href='https://etherscan.io/address/0x2456ce3c64b2b94155dbfbe6b06701dfee9f40a1#code' rel="noopener noreferrer" target="_blank">0x2456Ce3C64B2b94155dBfBe6B06701DfEE9f40a1</a>
+          <br></br>
+          {this.state.NFTContractBalance > 0 && <button onClick={(event) => {event.preventDefault() 
+            this.page(2)}} className='rainbow-button'>Click to place a Pixel</button>}
+          {this.state.NFTContractBalance === 0 && <button disabled className='rainbow-button'>Mint to place a Pixel</button>}
           
         </div>
       </div>
