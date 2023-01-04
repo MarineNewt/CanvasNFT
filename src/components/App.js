@@ -104,18 +104,18 @@ class App extends Component {
       content = <div className="container-fluid">
       <div className="row">
       <div className="content mr-auto ml-auto">
-        <div id="content" className="compbox comp-font-sizer" style={{marginTop: '15vh'}}>
+        <div id="content" className="compbox comp-font-sizer" style={{marginTop: 'calc(2.5vw + 60px)'}}>
           <h1 className="comp-head-sizer">Canvas On-Chain NFT</h1>
           <p>Canvases minted: {this.state.NFTContractSupply} / 396</p>
           <p>MINT A CANVAS:</p>
           <form onSubmit={(event) => {
             event.preventDefault()
             this.mint()}}>
-            <input type="image" src={btnimg} alt="" style={{height: "calc(7vw + 10px)", borderRadius: "13px"}} name="saveForm" class="shimit btTxt submit" id="saveForm" />
+            <input type="image" src={btnimg} alt="" style={{height: "calc(4vw + 45px)", borderRadius: "13px"}} name="saveForm" class="shimit btTxt submit" id="saveForm" />
           </form>
           <p><i>.02 ETH</i></p>
           
-          <a style={{fontSize: '1vw'}} href='https://etherscan.io/address/0x2456ce3c64b2b94155dbfbe6b06701dfee9f40a1#code' rel="noopener noreferrer" target="_blank">0x2456Ce3C64B2b94155dBfBe6B06701DfEE9f40a1</a>
+          <a style={{fontSize: 'calc(.4vw + 7px)'}} href='https://etherscan.io/address/0x2456ce3c64b2b94155dbfbe6b06701dfee9f40a1#code' rel="noopener noreferrer" target="_blank">0x2456Ce3C64B2b94155dBfBe6B06701DfEE9f40a1</a>
           <br></br>
           {this.state.NFTContractBalance > 0 && <button onClick={(event) => {event.preventDefault() 
             this.page(2)}} className='rainbow-button'>Click to place a Pixel</button>}
