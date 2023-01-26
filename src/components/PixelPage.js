@@ -15,7 +15,7 @@ class PixelPage extends Component {
         <div className="container-fluid">
         <div className="row">
         <div className="content mr-auto ml-auto">
-          <div id="content" className="compbox comp-font-sizer" style={{marginTop: '9vh', width: 'calc(15vw + 230px)'}}>
+          <div id="content" className="compbox comp-font-sizer" style={{marginTop: '9vh', width: 'calc(13vw + 300px)'}}>
             <div id="grid" className="mb-3">
               <div className='noroom'>
                 <button onClick={(event) => {event.preventDefault();this.props.settarget(1)}} className='squareit' style={{backgroundColor: "rgb("+this.props.canvasfull[0]+","+this.props.canvasfull[1]+","+this.props.canvasfull[2]+")"}}></button>
@@ -255,28 +255,28 @@ class PixelPage extends Component {
             bcolor = this.input4.value.toString()
             this.props.place(tokenID,rcolor,gcolor,bcolor)}}>
               
-            <div className='input-group'>
+            <div className='input-group mt-1'>
               <input
                 type="text"
                 ref={(input) =>  { this.input2 = input }}
                 className="form-control form-control-lg"
                 placeholder="R (1-255)"
                 required
-                style={{height: "3vw"}} />
+                style={{height: "calc(40px)", fontSize: "calc(.8vw + 11px)"}} />
               <input
                 type="text"
                 ref={(input) =>  { this.input3 = input }}
                 className="form-control form-control-lg"
                 placeholder="G (1-255)"
                 required
-                style={{height: "3vw"}} />
+                style={{height: "calc(40px)", fontSize: "calc(.8vw + 11px)"}} />
               <input
                 type="text"
                 ref={(input) =>  { this.input4 = input }}
                 className="form-control form-control-lg"
                 placeholder="B (1-255)"
                 required
-                style={{height: "3vw"}} />
+                style={{height: "calc(40px)", fontSize: "calc(.8vw + 11px)"}} />
               </div>
               <div>
                 <input
@@ -285,7 +285,7 @@ class PixelPage extends Component {
                   className="form-control form-control-lg"
                   placeholder="Your Canvas Token ID"
                   required
-                  style={{height: "3vw"}} />
+                  style={{height: "calc(.5vw + 35px)"}} />
                 <button type="submit" className="rainbow-button " style = {{width: '100%'}} >Place a pixel</button>
               </div>
             </form>
