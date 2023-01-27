@@ -7,6 +7,7 @@ import bkgrd from '../images/background.png'
 class PixelPage extends Component {
   
   render() {
+    const Mobile = window.innerWidth >= 1100 ? 'false' : 'true';
     return (
       <div style={{height: '100vh', margintop: '0', backgroundImage: `url( ${bkgrd} )`,
       backgroundSize: 'contain'}}>
@@ -16,6 +17,16 @@ class PixelPage extends Component {
         <div className="row">
         <div className="content mr-auto ml-auto">
           <div id="content" className="compbox comp-font-sizer" style={{marginTop: '9vh', width: 'calc(13vw + 300px)'}}>
+          {Mobile === 'false' && <a href='/' className="help-icon"><svg style={{position: 'absolute', right: '28vw'}} width='calc(1vw + 20px)' height='calc(1vw + 20px)' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM256 464c-114.7 0-208-93.31-208-208S141.3 48 256 48s208 93.31 208 208S370.7 464 256 464zM256 336c-18 0-32 14-32 32s13.1 32 32 32c17.1 0 32-14 32-32S273.1 336 256 336zM289.1 128h-51.1C199 128 168 159 168 198c0 13 11 24 24 24s24-11 24-24C216 186 225.1 176 237.1 176h51.1C301.1 176 312 186 312 198c0 8-4 14.1-11 18.1L244 251C236 256 232 264 232 272V288c0 13 11 24 24 24S280 301 280 288V286l45.1-28c21-13 34-36 34-60C360 159 329 128 289.1 128z"/></svg>
+              <div className="help-text">
+                <p>1. Start by finding the RGB values of a color you want to place on the Canvas. Clicking the White Square in the left upper corner of the screen will open a color picker that you can use to find these RGB values. </p>
+                <p>2. Enter the R, G, and B numerical values into their respective inputs below the canvas.</p>
+                <p>3. Find your Token ID via opensea or etherscan, the Token ID will be in the description of your canvas NFT. Enter the Token ID into the token ID input.</p>
+                <p>4. Click on the square of the canvas pixel which you wish to change, this will highlight it.</p>
+                <p>5. Click the "Place a pixel" button and sign the tx from your wallet.</p>
+                <p>Once your transaction is successful the canvas will be updated with your pixel. Return in 2+ hours to place your next pixel on the Canvas.</p>
+              </div>
+          </a>}
             <div id="grid" className="mb-3">
               <div className='noroom'>
                 <button onClick={(event) => {event.preventDefault();this.props.settarget(1)}} className='squareit' style={{backgroundColor: "rgb("+this.props.canvasfull[0]+","+this.props.canvasfull[1]+","+this.props.canvasfull[2]+")"}}></button>

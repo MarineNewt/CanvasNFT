@@ -112,3 +112,25 @@
     }
   }
   
+
+  .help-icon .help-text {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 65vw;
+    padding: 4px 6px;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    font-size: calc(1vw + 7px);
+    text-align: left;
+    border: .4vw solid black;
+    border-radius: 12px;
+    margin-top: 0px;
+  }
+    
+  .help-icon:hover .help-text {
+    display: block;
+  }
